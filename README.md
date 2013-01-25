@@ -1,8 +1,7 @@
-mockshell
+Bock
 =========
 
 Bash Mocking Framework - Currently completely TODO
-
 
 Implementation
 ==============
