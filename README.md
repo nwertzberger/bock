@@ -1,0 +1,4 @@
+mockshell
+=========
+
+Bash Mocking Framework
