@@ -23,12 +23,12 @@ Usage
     -1
     $ bock when rm thefile
     $ bock return -1
-    $ bock output STDOUT <<< EOF
-    This
-    is
-    the
-    output
-    EOF
+    $ bock output STDOUT << EOF
+    > This
+    > is
+    > the
+    > output
+    > EOF
     $ rm thefile
     This
     is
