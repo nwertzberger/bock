@@ -11,28 +11,13 @@ program that can then be used for testing shell scripts.
 
 Usage
 =====
-    $ . /path/to/bock cp td rm other commands i want to mock
-    $ rm thefile
-    $ bock verify rm thefile
+    $ source /path/to/bock thisCall
+    $ thisCall
+    $ verify thisCall
     $ echo $?
     0
-    $ reset
-    $ bock verify rm thefile
-    ERROR: Wanted but not invoked: "rm thefile"
+    $ resetMocks thisCall
+    $ verify thisCall
+    ERROR: Wanted but not invoked. 'thisCall'
     $ echo $?
-    -1
-    $ bock when rm thefile
-    $ bock return -1
-    $ bock output STDOUT << EOF
-    > This
-    > is
-    > the
-    > output
-    > EOF
-    $ rm thefile
-    This
-    is
-    the
-    output
-    $ echo $?
-    -1
+    1
