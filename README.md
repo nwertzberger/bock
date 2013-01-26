@@ -1,13 +1,14 @@
 Bock
 =========
 
-Bash Mocking Framework - Currently completely TODO
+Bash Mocking Framework
 
-Implementation
+Introduction
 ==============
 
-This tool offers a way to create aliases that then call a simple mock
-program that can then be used for testing shell scripts.
+Bock is intended to be a mocking and spy framework for bash scripts. This offers a
+way to test code that may be complex enough to warrant mocking away system calls.
+E.g. rm, cp, mv, etc.
 
 Usage
 =====
@@ -21,3 +22,12 @@ Usage
     ERROR: Wanted but not invoked. 'thisCall'
     $ echo $?
     1
+
+TODO
+====
+
+Add mocking calls.
+
+Known Issues
+============
+The aliases don't actually work. These calls need to use the "export -f" style to override.
