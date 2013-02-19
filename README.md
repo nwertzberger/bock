@@ -32,6 +32,5 @@ leaves a ".bock" dropping in any folder it is run inside.
 
 TODO
 ====
-
 Right now this library only spies. It needs to start mocking.
 
