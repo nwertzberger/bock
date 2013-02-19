@@ -2,15 +2,8 @@
 
 
 source ./bock thisCall
-echo -n "Testing if a mocked call is aliased..."
-alias -p | grep thisCall >/dev/null && echo "PASSED" || echo FAILED
-
-echo -n "Testing if a mock call is stored in a global array..."
-thisCall
-[ -z $MOCKED_thisCall[1] ] && echo "FAILED" || echo "PASSED" 
-
 echo -n "Testing if the last call is being kept track of..."
-
+thisCall
 if verify thisCall
 then
     echo PASSED
@@ -28,6 +21,5 @@ echo "Testing if these mocks are carried into a sub-program"
 source ./bock mv
 . test/testScript
 
-unalias echo
-verify echo && echo PASSED || echo FAILED
+verify mv && echo PASSED || echo FAILED
 

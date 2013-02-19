@@ -2,17 +2,11 @@
 # BOCK - Back Mocking System
 # Programmer: Nick Wertzberger
 # Website: ideaheap.com
+# Bock works by storing metadata in the directory it runs in.
 
 function bockMockSpy {
     local FUNC_NAME=$1
-    eval local FUNC_CALLS=\${MOCKED_CALLS_$FUNC_NAME}
-    if [[ -z $FUNC_CALLS ]]
-    then
-        eval MOCKED_CALLS_$FUNC_NAME=1
-    else
-        eval MOCKED_CALLS_$FUNC_NAME=$(expr $FUNC_CALLS + 1)
-    fi
-    eval MOCKED_$FUNC_NAME[MOCKED_CALLS_$FUNC_NAME]="$@"
+    echo "$@" >> $BOCK_BASEDIR/.bock/$FUNC_NAME
 }
 
 function verify {
@@ -38,17 +32,11 @@ function verify {
     fullCall=${fullCall%% *}
 
     # Get spy data
-    eval local calls=\$MOCKED_CALLS_$callToCheck
-    [ -z $calls ] && calls=0
-    local callMatches=0
-    for (( i=1; i<=$calls; i++ ))
-    do
-        eval local testCall=\${MOCKED_$callToCheck[$i]}
-        if [[ $testCall == $fullCall ]]
-        then
-            callMatches=$(expr $callMatches + 1)
-        fi
-    done
+    eval local calls=$(cat $BOCK_BASEDIR/.bock/$callToCheck 2>/dev/null | wc -l)
+    eval local callMatches=$(
+        cat $BOCK_BASEDIR/.bock/$callToCheck 2>/dev/null |
+        grep "$fullCall" 2>/dev/null |
+        wc -l)
 
     # Test Spy data
     if [[ $numCalls == -1 && $callMatches > 0 ]]
@@ -69,11 +57,19 @@ function verify {
 
 function resetMocks {
     local FUNC=$1
-    eval MOCKED_CALLS_$FUNC=
+    if [ x"$FUNC" == x ]
+    then
+        FUNC='*'
+    fi
+    rm $BOCK_BASEDIR/.bock/$FUNC
 }
 
-# Task alias all passed in functions to mockSpy
+BOCK_BASEDIR=$(pwd)
+mkdir -p $BOCK_BASEDIR/.bock
+rm $BOCK_BASEDIR/.bock/*
 shopt -s expand_aliases
+
+# Task alias all passed in functions to mockSpy
 for x in $@
 do
     eval "function $x { bockMockSpy $x \$@; }"
