@@ -23,3 +23,11 @@ resetMocks thisCall
 
 verify thisCall && echo FAILED || echo PASSED
 
+echo "Testing if these mocks are carried into a sub-program"
+
+source ./bock mv
+. test/testScript
+
+unalias echo
+verify echo && echo PASSED || echo FAILED
+

@@ -10,7 +10,6 @@ function bockMockSpy {
     then
         eval MOCKED_CALLS_$FUNC_NAME=1
     else
-        echo $FUNC_CALLS
         eval MOCKED_CALLS_$FUNC_NAME=$(expr $FUNC_CALLS + 1)
     fi
     eval MOCKED_$FUNC_NAME[MOCKED_CALLS_$FUNC_NAME]="$@"
@@ -77,6 +76,7 @@ function resetMocks {
 shopt -s expand_aliases
 for x in $@
 do
-    alias $x="bockMockSpy $x"
+    eval "function $x { bockMockSpy $x \$@; }"
+    eval "export -f $x"
 done
 
