@@ -23,11 +23,15 @@ Usage
     $ echo $?
     1
 
+Implementation
+==============
+This uses export -f to override any non-pathed function call. Its spies store
+function calls in a simple text file to track what calls have been made.
+A call to "resetMocks" will delete the files, but this test framework currently
+leaves a ".bock" dropping in any folder it is run inside.
+
 TODO
 ====
 
-Add mocking calls.
+Right now this library only spies. It needs to start mocking.
 
-Known Issues
-============
-The aliases don't actually work. These calls need to use the "export -f" style to override.
