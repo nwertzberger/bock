@@ -66,7 +66,7 @@ function resetMocks {
 
 BOCK_BASEDIR=$(pwd)
 mkdir -p $BOCK_BASEDIR/.bock
-rm $BOCK_BASEDIR/.bock/*
+rm $BOCK_BASEDIR/.bock/* 2>/dev/null
 shopt -s expand_aliases
 
 # Task alias all passed in functions to mockSpy
